@@ -6,6 +6,7 @@ import { useNavigate } from "react-router-dom";
 import InputTodo from "../component/InputTodo";
 import ListTodo from "../component/ListTodo";
 import Navbars from "../component/Navbars";
+import background from "../background/background.png";
 
 const HomePage = () => {
   const [todo, setTodo] = useState([]);
@@ -35,23 +36,24 @@ const HomePage = () => {
   //submit data
   const handleSubmit = (event) => {
     event.preventDefault();
-    if (edit) {
+    console.log(edit);
+    if (edit === true) {
       axios.post(`https://api.todoist.com/rest/v1/tasks/${item.id}`, item).then(() => {
-        getApi();
         handleClear();
         setEdit(false);
+        getApi();
       });
     } else {
       axios.post(`https://api.todoist.com/rest/v1/tasks/`, item).then(() => {
-        getApi();
         handleClear();
+        getApi();
       });
     }
   };
 
   //clear data
   const handleClear = () => {
-    let newItem = { ...item };
+    let newItem = {};
     newItem["content"] = "";
     newItem["description"] = "";
     setItem(newItem);
@@ -87,15 +89,10 @@ const HomePage = () => {
   };
 
   return (
-    <div>
+    <div class="container" style={{ backgroundImage: `url(${background})` }}>
       <Navbars title="Homepage" detail="Detail" />
       <InputTodo item={item} setItem={setItem} handleChange={handleChange} handleSubmit={handleSubmit} />
       <ListTodo todo={todo} handleDelete={handleDelete} handleEdit={handleEdit} handleDetail={handleDetail} />
-      {/* {todo.map((data) => {
-                return (
-                    <p>{data.content}</p>
-                )
-            })} */}
     </div>
   );
 };
