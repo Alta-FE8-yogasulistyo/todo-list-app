@@ -1,25 +1,25 @@
-import logo from './logo.svg';
-import './App.css';
+// import library
+import React from "react";
+import axios from "axios";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
-function App() {
+// import file
+import Homepage from "./pages/Homepage";
+
+const App = () => {
+  // set Token bearer
+  axios.defaults.headers.common = {
+    Authorization: "Bearer " + "62e5a2372cdc7ded0f0b283da6ef3821f82bd4fe",
+  };
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <>
+      <Router>
+        <Routes>
+          <Route exact path="/" element={<Homepage />} />
+        </Routes>
+      </Router>
+    </>
   );
-}
+};
 
 export default App;
