@@ -1,12 +1,12 @@
 import React from "react";
-import { Button, Card, Container, Row, Col } from "react-bootstrap";
+import { Button, Card, Container, Col, Row } from "react-bootstrap";
 
-const Listtodo = ({ list, handleDelete, handleEdit, handleDetail }) => {
+const Listtodo = ({ todo, handleDelete, handleEdit, handleDetail }) => {
   return (
     <>
       <Container>
         <Row xxl={4} xl={4} lg={4} md={2}>
-          {list.map((data, index) => {
+          {todo.map((data, index) => {
             return (
               <div key={index}>
                 <Col>
