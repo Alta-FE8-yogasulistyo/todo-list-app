@@ -2,7 +2,7 @@
 import axios from "axios";
 import React, { useState } from "react";
 import { useEffect } from "react";
-
+import { useNavigate } from "react-router-dom";
 // import file
 import Navbars from "../component/Navbars";
 import Inputtodo from "../component/Inputtodo";
@@ -16,6 +16,9 @@ const Homepage = () => {
     content: "",
     description: "",
   });
+
+  const [edit, setEdit] = useState(false);
+  const navigate = useNavigate();
 
   // Fetch API
   const getData = () => {
@@ -32,10 +35,18 @@ const Homepage = () => {
   //   handle Submit
   const handleSubmit = (e) => {
     e.preventDefault();
-    axios.post("https://api.todoist.com/rest/v1/tasks/", todo).then(() => {
-      handleClear();
-      getData();
-    });
+    if (edit === false) {
+      axios.post("https://api.todoist.com/rest/v1/tasks/", todo).then(() => {
+        handleClear();
+        getData();
+      });
+    } else {
+      axios.post(`https://api.todoist.com/rest/v1/tasks/${todo.id}`, todo).then(() => {
+        handleClear();
+        setEdit(false);
+        getData();
+      });
+    }
   };
   // handleClear
   const handleClear = () => {
@@ -52,6 +63,24 @@ const Homepage = () => {
     });
   };
 
+  // Edit data
+  const handleEdit = ({ id }) => {
+    axios.get(`https://api.todoist.com/rest/v1/tasks/${id}`).then((respon) => {
+      setTodo(respon.data);
+      setEdit(true);
+    });
+  };
+
+  // goto detail
+  const handleDetail = (data) => {
+    navigate("/Detail", {
+      state: {
+        content: data.content,
+        description: data.description,
+      },
+    });
+  };
+
   useEffect(() => {
     getData();
   }, []);
@@ -60,7 +89,7 @@ const Homepage = () => {
     <>
       <Navbars title="Homepage" detail="Detail" />
       <Inputtodo todo={todo} setTodo={setTodo} handleChange={handleChange} handleSubmit={handleSubmit} />
-      <Listtodo list={list} handleDelete={handleDelete} />
+      <Listtodo list={list} handleDelete={handleDelete} handleEdit={handleEdit} handleDetail={handleDetail} />
     </>
   );
 };

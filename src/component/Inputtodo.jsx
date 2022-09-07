@@ -4,7 +4,7 @@ import { Form, Button, Row, Col } from "react-bootstrap";
 const Inputtodo = ({ handleChange, todo, handleSubmit }) => {
   return (
     <div style={{ display: "flex", justifyContent: "center", marginTop: 50 }}>
-      <Form onSubmit={handleSubmit}>
+      <Form onSubmit={handleSubmit} className="mb-5">
         <Row>
           <Col>
             <Form.Group className="mb-3" controlId="formBasicEmail">
